@@ -12,14 +12,16 @@ before_install:
   - sudo apt-get install -y -o Dpkg::Options::="--force-confold" --force-yes docker-engine
 
 install:
-  - pip install ansible ansible-container
+  - pip install ansible-container
 
 script:
   - docker version
   - docker-compose version
   - docker info
   - env
-
+  - cd tests 
+  - ansible-container install git+https://github.com/${TRAVIS_REPO_SLUG},${TRAVIS_COMMIT}
+  - ansible-container build
 
 notifications:
   email: false
